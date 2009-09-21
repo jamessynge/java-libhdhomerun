@@ -28,27 +28,27 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.synge.hdhomerun.IDevice;
-import org.synge.hdhomerun.IDevice.IDeviceLocator;
+import org.synge.hdhomerun.IDeviceFactory;
 
 public class TestDiscovery {
   @Test
   public void testDiscovery()
   {
-    final IDeviceLocator locator = IDevice.LOCATOR;
+    final IDeviceFactory locator = IDevice.FACTORY;
 
     // Find all the devices on the local subnet.
-    List<IDevice> devicesOnSubnet = locator.locateOnSubnet(1, TimeUnit.SECONDS);
+    List<IDevice> devicesOnSubnet = locator.discoverOnSubnet(1, TimeUnit.SECONDS);
 
     // Then confirm we can find each of them by ip address and by id.
     for (IDevice expectedDevice : devicesOnSubnet) {
       InetAddress address = expectedDevice.getInetAddress();
       int id = expectedDevice.getDeviceID();
 
-      IDevice byAddress = locator.locateByAddress(address, 1, TimeUnit.SECONDS);
+      IDevice byAddress = locator.discoverByAddress(address, 1, TimeUnit.SECONDS);
       assertNotNull(byAddress);
       assertEquals(expectedDevice, byAddress);
 
-      IDevice byID = locator.locateByID(id, 1, TimeUnit.SECONDS);
+      IDevice byID = locator.discoverByID(id, 1, TimeUnit.SECONDS);
       assertNotNull(byID);
       assertEquals(expectedDevice, byID);
     }

@@ -45,15 +45,15 @@ import java.util.concurrent.TimeUnit;
 import org.synge.hdhomerun.HDHRPacketType;
 import org.synge.hdhomerun.HDHRTag;
 import org.synge.hdhomerun.IDevice;
-import org.synge.hdhomerun.IDevice.IDeviceLocator;
+import org.synge.hdhomerun.IDeviceFactory;
 
 /**
  *
  * @author James Synge
  */
-public class DeviceLocator implements IDeviceLocator {
+public class DeviceFactory implements IDeviceFactory {
   @Override
-  public IDevice locateByAddress(InetAddress address, int timeout, TimeUnit timeUnit) {
+  public IDevice discoverByAddress(InetAddress address, int timeout, TimeUnit timeUnit) {
     List<InetAddress> destinationAddresses = Collections.singletonList(address);
     try {
       List<IDevice> results = locate(destinationAddresses, HDHOMERUN_DEVICE_ID_WILDCARD, true, timeout, timeUnit);
@@ -67,7 +67,7 @@ public class DeviceLocator implements IDeviceLocator {
   }
 
   @Override
-  public IDevice locateByID(int deviceID, int timeout, TimeUnit timeUnit) {
+  public IDevice discoverByID(int deviceID, int timeout, TimeUnit timeUnit) {
     final List<IDevice> results = locateOnSubnet(deviceID, true, timeout, timeUnit);
     if (results.isEmpty())
       return null;
@@ -75,7 +75,7 @@ public class DeviceLocator implements IDeviceLocator {
   }
 
   @Override
-  public List<IDevice> locateOnSubnet(int timeout, TimeUnit timeUnit) {
+  public List<IDevice> discoverOnSubnet(int timeout, TimeUnit timeUnit) {
     return locateOnSubnet(HDHOMERUN_DEVICE_ID_WILDCARD, false, timeout, timeUnit);
   }
 

@@ -22,10 +22,8 @@
 package org.synge.hdhomerun;
 
 import java.net.InetAddress;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.synge.hdhomerun.impl.DeviceLocator;
+import org.synge.hdhomerun.impl.DeviceFactory;
 
 /**
  * Represents an HDHomeRun device on the network.
@@ -33,6 +31,8 @@ import org.synge.hdhomerun.impl.DeviceLocator;
  * @author James Synge
  */
 public interface IDevice {
+  static final IDeviceFactory FACTORY = new DeviceFactory();
+
   /**
    * Returns the HDHomeRun's device ID (the hexadecimal representation is
    * printed on the bottom of the HDHomeRun).
@@ -67,13 +67,4 @@ public interface IDevice {
 	 *     0 to N-1, where N is the count of tuners that the device supports.
 	 */
 	ITuner getTuner(int tunerNumber) throws IndexOutOfBoundsException;
-
-	interface IDeviceLocator {
-	  IDevice locateByAddress(InetAddress address, int timeout, TimeUnit timeUnit);
-    IDevice locateByID(int deviceID, int timeout, TimeUnit timeUnit);
-    List<IDevice> locateOnSubnet(int timeout, TimeUnit timeUnit);
-	}
-
-	static final IDeviceLocator LOCATOR = new DeviceLocator();
-
 }

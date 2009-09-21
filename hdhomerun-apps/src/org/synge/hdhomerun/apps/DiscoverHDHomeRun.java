@@ -4,18 +4,22 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.synge.hdhomerun.IDevice;
-import org.synge.hdhomerun.impl.HDHomeRunConstants;
 
+/**
+ * Prints a list of HDHomeRun devices.
+ *
+ * @author James Synge
+ */
 public class DiscoverHDHomeRun {
   static {
     System.setProperty("java.net.preferIPv4Stack", "true");
   }
 
   public static void main(String[] args) {
-    List<IDevice> devices1OnSubnet = IDevice.LOCATOR.locateOnSubnet(5, TimeUnit.SECONDS);
-
-    IDevice firstDeviceOnSubnet = IDevice.LOCATOR.locateByID(HDHomeRunConstants.HDHOMERUN_DEVICE_ID_WILDCARD, 5, TimeUnit.SECONDS);
-    
+    List<IDevice> devicesOnSubnet = IDevice.FACTORY.discoverOnSubnet(5, TimeUnit.SECONDS);
+    for (IDevice device : devicesOnSubnet) {
+      System.out.println(device.toString());
+    }
     return;
   }
 }
