@@ -44,20 +44,36 @@ import org.synge.hdhomerun.ITuner;
  * @author James Synge
  */
 public class Device implements IDevice {
-  private final int deviceId;
+  private final int deviceID;
   private final InetAddress ipAddr;
 
-  public Device(int deviceId, InetAddress ipAddr) {
-    this.deviceId = deviceId;
+  public Device(int deviceID, InetAddress ipAddr) {
+    this.deviceID = deviceID;
     this.ipAddr = ipAddr;
     return;
   }
 
   @Override
   public String toString() {
-    String result = String.format("Device %x @ %s", deviceId, ipAddr.getHostAddress());
+    String result = String.format("Device %x @ %s", deviceID, ipAddr.getHostAddress());
     return result;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof Device) {
+      Device that = (Device) obj;
+      if (that.deviceID != this.deviceID)
+        return false;
+      else if (!that.ipAddr.equals(this.ipAddr))
+        return false;
+      else
+        return true;
+    }
+    else
+      return false;
+  }
+  
   
   /*
    * TODO Create a pool of channels.
@@ -86,7 +102,7 @@ public class Device implements IDevice {
   }
 
   public int getDeviceID() {
-    return deviceId;
+    return deviceID;
   }
 
   public InetAddress getInetAddress() {

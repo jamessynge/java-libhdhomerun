@@ -21,7 +21,6 @@
  */
 package org.synge.hdhomerun;
 
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -70,7 +69,7 @@ public interface IDevice {
 	ITuner getTuner(int tunerNumber) throws IndexOutOfBoundsException;
 
 	interface IDeviceLocator {
-	  IDevice locateByAddress(Inet4Address address, int timeout, TimeUnit timeUnit);
+	  IDevice locateByAddress(InetAddress address, int timeout, TimeUnit timeUnit);
     IDevice locateByID(int deviceID, int timeout, TimeUnit timeUnit);
     List<IDevice> locateOnSubnet(int timeout, TimeUnit timeUnit);
 	}

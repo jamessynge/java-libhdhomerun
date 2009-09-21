@@ -29,7 +29,6 @@ import static org.synge.hdhomerun.impl.HDHomeRunConstants.HDHOMERUN_DEVICE_TYPE_
 import static org.synge.hdhomerun.impl.HDHomeRunConstants.HDHOMERUN_DISCOVER_UDP_PORT;
 
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -54,8 +53,8 @@ import org.synge.hdhomerun.IDevice.IDeviceLocator;
  */
 public class DeviceLocator implements IDeviceLocator {
   @Override
-  public IDevice locateByAddress(Inet4Address address, int timeout, TimeUnit timeUnit) {
-    List<Inet4Address> destinationAddresses = Collections.singletonList(address);
+  public IDevice locateByAddress(InetAddress address, int timeout, TimeUnit timeUnit) {
+    List<InetAddress> destinationAddresses = Collections.singletonList(address);
     try {
       List<IDevice> results = locate(destinationAddresses, HDHOMERUN_DEVICE_ID_WILDCARD, true, timeout, timeUnit);
       if (results.isEmpty())
@@ -85,7 +84,7 @@ public class DeviceLocator implements IDeviceLocator {
    * 
    */
   public List<IDevice> locateOnSubnet(int deviceID, boolean oneOnly, int timeout, TimeUnit timeUnit) {
-    List<Inet4Address> broadcastAddresses = null;
+    List<? extends InetAddress> broadcastAddresses = null;
     try {
       broadcastAddresses = GetIPv4BroadcastAddresses.getBroadcastAddresses();
     }
@@ -106,7 +105,7 @@ public class DeviceLocator implements IDeviceLocator {
    * This method is public to improve testability.
    * 
    */
-  public List<IDevice> locate(List<Inet4Address> destinationAddresses, int deviceID, boolean oneOnly, int timeout, TimeUnit timeUnit) throws IOException {
+  public List<IDevice> locate(List<? extends InetAddress> destinationAddresses, int deviceID, boolean oneOnly, int timeout, TimeUnit timeUnit) throws IOException {
     long maxMillis = timeUnit.toMillis(timeout);
     if (maxMillis < 1)
       maxMillis = 1;
@@ -180,7 +179,7 @@ public class DeviceLocator implements IDeviceLocator {
    * @param deviceID
    * @throws IOException
    */
-  private static void sendDiscoverRequests(DatagramChannel channel, List<Inet4Address> destinationAddresses, int deviceID) throws IOException {
+  private static void sendDiscoverRequests(DatagramChannel channel, List<? extends InetAddress> destinationAddresses, int deviceID) throws IOException {
     // Create the request for info.
 
     HDHRPacket packet = new HDHRPacket();
@@ -195,11 +194,6 @@ public class DeviceLocator implements IDeviceLocator {
       packet.rewind();
     }
 
-    return;
-  }
-
-  private static void sendDiscoverRequest(DatagramChannel channel, Inet4Address destinationAddress, int deviceID) throws IOException {
-    sendDiscoverRequests(channel, Collections.singletonList(destinationAddress), deviceID);
     return;
   }
 
