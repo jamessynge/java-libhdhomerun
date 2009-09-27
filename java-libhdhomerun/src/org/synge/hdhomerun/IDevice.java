@@ -23,16 +23,12 @@ package org.synge.hdhomerun;
 
 import java.net.InetAddress;
 
-import org.synge.hdhomerun.impl.DeviceFactory;
-
 /**
  * Represents an HDHomeRun device on the network.
  *
  * @author James Synge
  */
 public interface IDevice {
-  static final IDeviceFactory FACTORY = new DeviceFactory();
-
   /**
    * Returns the HDHomeRun's device ID (the hexadecimal representation is
    * printed on the bottom of the HDHomeRun).

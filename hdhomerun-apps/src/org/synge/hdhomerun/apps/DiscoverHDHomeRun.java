@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.synge.hdhomerun.IDevice;
+import org.synge.hdhomerun.IDeviceFactory;
 
 /**
  * Prints a list of HDHomeRun devices.
@@ -16,7 +17,7 @@ public class DiscoverHDHomeRun {
   }
 
   public static void main(String[] args) {
-    List<IDevice> devicesOnSubnet = IDevice.FACTORY.discoverOnSubnet(5, TimeUnit.SECONDS);
+    List<IDevice> devicesOnSubnet = IDeviceFactory.INSTANCE.discoverOnSubnet(5, TimeUnit.SECONDS);
     for (IDevice device : devicesOnSubnet) {
       System.out.println(device.toString());
     }

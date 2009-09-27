@@ -25,12 +25,16 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.synge.hdhomerun.impl.DeviceFactory;
+
 /**
  * Provides methods for discovering the HDHomeRun devices on your network.
  *
  * @author James Synge
  */
 public interface IDeviceFactory {
+  static final IDeviceFactory INSTANCE = new DeviceFactory();
+
   /**
    * Broadcasts a DISCOVER request for all HDHomeRun devices to each of the IPv4
    * subnets to which this system is connected and then collects up the

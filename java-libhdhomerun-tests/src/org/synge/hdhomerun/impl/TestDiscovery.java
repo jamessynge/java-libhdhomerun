@@ -34,7 +34,7 @@ public class TestDiscovery {
   @Test
   public void testDiscovery()
   {
-    final IDeviceFactory locator = IDevice.FACTORY;
+    final IDeviceFactory locator = IDeviceFactory.INSTANCE;
 
     // Find all the devices on the local subnet.
     List<IDevice> devicesOnSubnet = locator.discoverOnSubnet(1, TimeUnit.SECONDS);
